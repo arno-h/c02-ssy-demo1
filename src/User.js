@@ -4,5 +4,4 @@ class User {
         this.legs = legs;
     }
 }
-
 module.exports = User;
