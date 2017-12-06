@@ -32,11 +32,8 @@ The following HTTP Methods can be tested
 ```
 GET
 DELETE
-PUT
-POST
-PATCH
 ```
-We have not discussed till 25.11.2017 the HTTP Methods-
+We have not discussed the following HTTP Methods as of 25.11.2017
 ```
 PUT
 POST
