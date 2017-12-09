@@ -33,7 +33,7 @@ The following HTTP Methods can be tested
 GET
 DELETE
 ```
-We have not discussed the following HTTP Methods as of 25.11.2017
+We have not discussed the following HTTP Methods as of 25.11.2017.
 ```
 PUT
 POST
