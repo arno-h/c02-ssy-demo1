@@ -1,5 +1,6 @@
 const express = require('express');
 const database = require('../src/database');
+const User = require('../src/User');
 const router = express.Router();
 
 // complete URL:
@@ -28,6 +29,23 @@ function listAllUsers(req, res) {
         result[user.name] = user.$loki;
     }
     res.json(result);
+}
+
+// CRUD
+// create, read, update, delete
+
+router.post('/', newUser);
+// Body: { "name": ..., "legs": ... }
+
+function newUser(req, res) {
+    const name = req.body.name;
+    const legs = req.body.legs;  // no parseInt necessary
+    const user = new User(name, legs);
+
+    const userCollection = database.getCollection('users');
+    userCollection.insert(user);
+
+    res.json(user);
 }
 
 
