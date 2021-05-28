@@ -14,4 +14,21 @@ function getSingleUser(req, res) {
     res.json(user);
 }
 
+// GET http://localhost:3000/users/
+// { "Sleipnir": 1, "Jormungandr": 2, "Hel": 3 }
+
+router.get('/', listAllUsers);
+
+function listAllUsers(req, res) {
+    const userCollection = database.getCollection('users');
+    const allUsers = userCollection.find(); // SELECT * FROM users;
+    const result = { };
+    for (let user of allUsers) {
+        // result.Sleipnir = 1;
+        result[user.name] = user.$loki;
+    }
+    res.json(result);
+}
+
+
 module.exports = router;
