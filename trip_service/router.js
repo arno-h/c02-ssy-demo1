@@ -13,14 +13,21 @@ async function getTrip(req, res) {
     // const result = Object.assign({}, trip); // (shallow) clone trip object
     const result = { ...trip }; // spread operator for shallow clone
 
-    if (req.query.names) {
+    if (req.query.names || req.query.shoes) {
         const names = [];
+        let shoeCount = 0;
         for (let participant_id of trip.participants) {
             let response = await Axios.get('http://localhost:3000/users/' + participant_id);
             let name = response.data.name;
             names.push(name);
+            let legs = response.data.legs;
+            shoeCount += legs;
         }
-        result.participants = names;
+
+        if (req.query.names)
+            result.participants = names;
+        if (req.query.shoes)
+            result.shoes = shoeCount;
     }
     delete result.meta; // clean up result object
 
