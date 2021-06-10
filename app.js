@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: false}));
 
 // Load routes into variables
 const index = require('./routes/index');
-const users = require('./routes/users');
+const users = require('./user_service/router');
 
 // Routes
 app.use('/', index);

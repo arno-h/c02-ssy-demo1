@@ -1,11 +1,11 @@
 const express = require('express');
-const database = require('../src/database');
-const User = require('../src/User');
+const database = require('./database');
+const User = require('./User');
 const router = express.Router();
 
 // complete URL:
 // http://localhost:3000/users/17
-//            bin/www   app.js users.js
+//            bin/www   app.js router.js
 router.get('/:id', getSingleUser);
 
 function getSingleUser(req, res) {
