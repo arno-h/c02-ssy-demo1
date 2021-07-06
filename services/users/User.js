@@ -3,6 +3,7 @@ class User {
         this.name = name;
         this.legs = legs;
         this.color = color;
+        this.friends = [];
     }
 }
 
