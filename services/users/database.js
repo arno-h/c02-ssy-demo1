@@ -1,7 +1,7 @@
 const Loki = require("lokijs");
 const User = require('./User');
 
-const db = new Loki('demo.json');
+const db = new Loki('users.json');
 const users = db.addCollection('users');
 
 users.insert(new User('Sleipnir', 8));
