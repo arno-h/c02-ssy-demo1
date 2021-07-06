@@ -12,7 +12,14 @@ const userCollection = database.getCollection('users');
 
 function getAllUsers(req, res) {
     let allUsers = userCollection.find();
-    res.json(allUsers);
+    let result = [];
+    for (let user of allUsers) {
+        result.push({
+            name: user.name,
+            id: user.$loki
+        });
+    }
+    res.json(result);
 }
 
 function getSingleUser(req, res) {
