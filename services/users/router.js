@@ -8,6 +8,8 @@ router.get('/:id', getSingleUser);
 router.delete('/:id', deleteUser);
 router.post('/', createUser);
 router.patch('/:id', updateUser);
+router.get('/:id/friends', getFriends);
+router.post('/:id/friends', addFriend);
 
 const userCollection = database.getCollection('users');
 
@@ -65,6 +67,20 @@ function updateUser(req, res) {
     }
     userCollection.update(user);
     res.json(user);
+}
+
+function getFriends(req, res) {
+    let user_id = parseInt(req.params.id);
+    let user = userCollection.get(user_id);
+    res.json(user.friends);
+}
+
+function addFriend(req, res) {
+    let user_id = parseInt(req.params.id);
+    let user = userCollection.get(user_id);
+    user.friends.push(req.body.name);
+    userCollection.update(user);
+    res.json(user.friends);
 }
 
 module.exports = router;
