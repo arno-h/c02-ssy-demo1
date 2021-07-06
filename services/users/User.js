@@ -1,7 +1,8 @@
 class User {
-    constructor(name, legs) {
+    constructor(name, legs, color) {
         this.name = name;
         this.legs = legs;
+        this.color = color;
     }
 }
 

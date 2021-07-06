@@ -48,7 +48,7 @@ function deleteUser(req, res) {
 }
 
 function createUser(req, res) {
-    let user = new User(req.body.name, req.body.legs);
+    let user = new User(req.body.name, req.body.legs, req.body.color);
     userCollection.insert(user);
     res.json(user);
 }
@@ -56,12 +56,15 @@ function createUser(req, res) {
 function updateUser(req, res) {
     let user_id = parseInt(req.params.id);
     let user = userCollection.get(user_id);
-    // two examples of how to check, if attribute exists
+    // three examples of how to check, if attribute exists
     if ('name' in req.body) {
         user.name = req.body.name;
     }
     if (req.body.legs !== undefined) {
         user.legs = req.body.legs;
+    }
+    if (typeof req.body.color !== "undefined") {
+        user.color = req.body.color;
     }
     userCollection.update(user);
     res.json(user);
