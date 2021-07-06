@@ -7,6 +7,7 @@ router.get('/', getAllUsers)
 router.get('/:id', getSingleUser);
 router.delete('/:id', deleteUser);
 router.post('/', createUser);
+router.patch('/:id', updateUser);
 
 const userCollection = database.getCollection('users');
 
@@ -38,6 +39,20 @@ function deleteUser(req, res) {
 function createUser(req, res) {
     let user = new User(req.body.name, req.body.legs);
     userCollection.insert(user);
+    res.json(user);
+}
+
+function updateUser(req, res) {
+    let user_id = parseInt(req.params.id);
+    let user = userCollection.get(user_id);
+    // two examples of how to check, if attribute exists
+    if ('name' in req.body) {
+        user.name = req.body.name;
+    }
+    if (req.body.legs !== undefined) {
+        user.legs = req.body.legs;
+    }
+    userCollection.update(user);
     res.json(user);
 }
 
