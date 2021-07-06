@@ -13,11 +13,14 @@ const userCollection = database.getCollection('users');
 
 function getAllUsers(req, res) {
     let allUsers;
-    if ('minLegs' in req.query) {
-        let minLegs = parseInt(req.query.minLegs);
+    if ('minLegs' in req.query || 'color' in req.query) {
 
         function filterMinlegs(user) {
-            return (user.legs >= minLegs);
+            if ('minLegs' in req.query && user.legs < parseInt(req.query.minLegs))
+                return false;
+            if ('color' in req.query && user.color !== req.query.color)
+                return false;
+            return true;
         }
 
         allUsers = userCollection.where(filterMinlegs);
