@@ -56,15 +56,9 @@ function createUser(req, res) {
 function updateUser(req, res) {
     let user_id = parseInt(req.params.id);
     let user = userCollection.get(user_id);
-    // three examples of how to check, if attribute exists
-    if ('name' in req.body) {
-        user.name = req.body.name;
-    }
-    if (req.body.legs !== undefined) {
-        user.legs = req.body.legs;
-    }
-    if (typeof req.body.color !== "undefined") {
-        user.color = req.body.color;
+    // instead as loop (assuming only known attributes are in req.body)
+    for (let attribute of Object.keys(req.body)) {
+        user[attribute] = req.body[attribute];
     }
     userCollection.update(user);
     res.json(user);
