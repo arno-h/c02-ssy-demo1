@@ -12,7 +12,18 @@ router.patch('/:id', updateUser);
 const userCollection = database.getCollection('users');
 
 function getAllUsers(req, res) {
-    let allUsers = userCollection.find();
+    let allUsers;
+    if ('minLegs' in req.query) {
+        let minLegs = parseInt(req.query.minLegs);
+
+        function filterMinlegs(user) {
+            return (user.legs >= minLegs);
+        }
+
+        allUsers = userCollection.where(filterMinlegs);
+    } else {
+        allUsers = userCollection.find();
+    }
     let result = [];
     for (let user of allUsers) {
         result.push({
