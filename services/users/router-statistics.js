@@ -7,30 +7,26 @@ router.get('/sum-legs/:color', coloredSumLegs);
 
 const userCollection = database.getCollection('users');
 
-function sumLegs(req, res) {
-    let allUsers = userCollection.find();
+function legStatistics(users) {
     let sumLegs = 0;
-    for (let user of allUsers) {
+    for (let user of users) {
         sumLegs += user.legs;
     }
-    res.json({
-        users: allUsers.length,
+    return {
+        users: users.length,
         sum_legs: sumLegs,
-        avg_legs: sumLegs / allUsers.length
-    });
+        avg_legs: sumLegs / users.length
+    };
+}
+
+function sumLegs(req, res) {
+    let allUsers = userCollection.find();
+    res.json(legStatistics(allUsers));
 }
 
 function coloredSumLegs(req, res) {
-    let allUsers = userCollection.find({color: req.params.color});
-    let sumLegs = 0;
-    for (let user of allUsers) {
-        sumLegs += user.legs;
-    }
-    res.json({
-        users: allUsers.length,
-        sum_legs: sumLegs,
-        avg_legs: sumLegs / allUsers.length
-    });
+    let colorUsers = userCollection.find({color: req.params.color});
+    res.json(legStatistics(colorUsers));
 }
 
 module.exports = router;
