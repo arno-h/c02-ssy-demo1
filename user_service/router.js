@@ -23,7 +23,8 @@ router.get('/', listAllUsers);
 
 function listAllUsers(req, res) {
     const token = req.headers.authorization;
-    if (auth.verify(token) === null) {
+    const verifiedToken = auth.verify(token);
+    if (verifiedToken === null || verifiedToken.role !== "admin") {
         res.status(403).end();
         return;
     }

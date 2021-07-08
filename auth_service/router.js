@@ -25,6 +25,7 @@ function login(req, res) {
     // Token
     const token = JSON.stringify({
         user: auth.$loki,
+        role: auth.role,
         version: "1.0"
     });
     res.json({
