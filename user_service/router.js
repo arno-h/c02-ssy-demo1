@@ -2,6 +2,7 @@ const express = require('express');
 const database = require('./database');
 const User = require('./User');
 const router = express.Router();
+const auth = require('../libs/auth');
 
 // complete URL:
 // http://localhost:3000/users/17
@@ -21,6 +22,12 @@ function getSingleUser(req, res) {
 router.get('/', listAllUsers);
 
 function listAllUsers(req, res) {
+    const token = req.headers.authorization;
+    if (auth.verify(token) === null) {
+        res.status(403).end();
+        return;
+    }
+
     const userCollection = database.getCollection('users');
     const allUsers = userCollection.find(); // SELECT * FROM users;
     const result = { };
