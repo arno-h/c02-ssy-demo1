@@ -1,7 +1,7 @@
 const express = require('express');
 const database = require('./database');
 const router = express.Router();
-const authLib = require('../libs/auth');
+const authLib = require('./lib');
 
 router.post('/login', login);
 /*
@@ -27,6 +27,17 @@ function login(req, res) {
     res.json({
         token: token
     });
+}
+
+router.post('/verify', verify);
+
+function verify(req, res) {
+    const token = req.body.token;
+    const result = authLib.verify(token);
+    if (result === null)
+        res.status(403).end();
+    else
+        res.json(result);
 }
 
 module.exports = router;

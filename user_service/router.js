@@ -2,7 +2,9 @@ const express = require('express');
 const database = require('./database');
 const User = require('./User');
 const router = express.Router();
-const auth = require('../libs/auth');
+const Axios = require('axios');
+const axios = Axios.create({validateStatus: null});
+
 
 // complete URL:
 // http://localhost:3000/users/17
@@ -21,13 +23,16 @@ function getSingleUser(req, res) {
 
 router.get('/', listAllUsers);
 
-function listAllUsers(req, res) {
+async function listAllUsers(req, res) {
     const token = req.headers.authorization;
-    const verifiedToken = auth.verify(token);
-    if (verifiedToken === null || verifiedToken.role !== "admin") {
+    const resp = await axios.post('http://localhost:3000/auth/verify', {
+        token: token
+    });
+    if (resp.status !== 200) {
         res.status(403).end();
         return;
     }
+    console.log(resp.data); // enthält Token-Daten als Objekt
 
     const userCollection = database.getCollection('users');
     const allUsers = userCollection.find(); // SELECT * FROM users;
