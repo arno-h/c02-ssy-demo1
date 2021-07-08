@@ -1,7 +1,7 @@
 const express = require('express');
 const database = require('./database');
-const Auth = require('./Auth');
 const router = express.Router();
+const authLib = require('../libs/auth');
 
 router.post('/login', login);
 /*
@@ -23,11 +23,7 @@ function login(req, res) {
         return;
     }
     // Token
-    const token = JSON.stringify({
-        user: auth.$loki,
-        role: auth.role,
-        version: "1.0"
-    });
+    const token = authLib.generateToken(auth);
     res.json({
         token: token
     });
